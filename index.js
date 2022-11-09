@@ -33,13 +33,23 @@ async function run(){
             res.send(service)
         })
 
-        // review
+        // add review
         app.post('/reviews', async(req,res)=>{
             const review =req.body;
             // console.log(review);
             const result =await reviewCollection.insertOne(review);
             res.send(result);
         })
+
+        // add service
+        app.post('/services', async(req,res)=>{
+            const service =req.body;
+            // console.log(service);
+            const result =await serviceCollections.insertOne(service);
+            res.send(result);
+        })
+
+
     }
     finally{
 
