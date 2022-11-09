@@ -26,6 +26,13 @@ async function run(){
             res.send(services);
         });
 
+        app.get('/',async(req,res) =>{
+            const query ={};
+            const cursor = serviceCollections.find(query).limit(3);
+            const services= await cursor.toArray();
+            res.send(services);
+        });
+
         app.get('/services/:id', async(req,res) =>{
             id=req.params.id;
             const query ={_id: ObjectId(id)};
@@ -49,7 +56,12 @@ async function run(){
             res.send(result);
         })
 
-
+        app.get('/reviews',async(req,res) =>{
+            const query ={};
+            const cursor = reviewCollection.find(query).sort({ $natural: -1 });
+            const review= await cursor.toArray();
+            res.send(review);
+        });
     }
     finally{
 
