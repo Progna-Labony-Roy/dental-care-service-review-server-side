@@ -18,6 +18,7 @@ async function run(){
     try{
         const serviceCollections= client.db('service-review-db').collection('serviecs');
         const reviewCollection= client.db('service-review-db').collection('reviews');
+        const serviceCollection= client.db('service-review-db').collection('homeService');
 
         app.get('/services',async(req,res) =>{
             const query ={};
@@ -26,13 +27,7 @@ async function run(){
             res.send(services);
         });
 
-        app.get('/',async(req,res) =>{
-            const query ={};
-            const cursor = serviceCollections.find(query).limit(3);
-            const services= await cursor.toArray();
-            res.send(services);
-        });
-
+        
         app.get('/services/:id', async(req,res) =>{
             id=req.params.id;
             const query ={_id: ObjectId(id)};
@@ -62,6 +57,14 @@ async function run(){
             const review= await cursor.toArray();
             res.send(review);
         });
+
+        // delete
+        app.delete('/reviews/:id', async(req, res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result =await reviewCollection.deleteOne(query);
+            res.send(result)
+        })
     }
     finally{
 
