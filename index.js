@@ -15,20 +15,20 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.goxtca6.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-function verifyJWT(req, res ,next){
-    const authHeader = req.headers.authorization;
-    if(!authHeader){
-        res.status(401).send({message :'unauthorized access'})
-    }
-    const token = authHeaderz.split(' ')[1]
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET ,function(err , decoded){
-        if(err){
-            res.status(401).send({message: 'unauthorized access'})
-        }
-        req.decoded =decoded;
-        next();
-    })
-}
+// function verifyJWT(req, res ,next){
+//     const authHeader = req.headers.authorization;
+//     if(!authHeader){
+//         res.status(401).send({message :'unauthorized access'})
+//     }
+//     const token = authHeaderz.split(' ')[1]
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET ,function(err , decoded){
+//         if(err){
+//             res.status(401).send({message: 'unauthorized access'})
+//         }
+//         req.decoded =decoded;
+//         next();
+//     })
+// }
 
 async function run(){
     try{
@@ -81,11 +81,11 @@ async function run(){
             res.send(allreview);
         });
 
-        app.get('/reviews', verifyJWT, async(req,res) =>{
-            const decoded = req.decoded;
-            if(decoded.email !== req.query.email){
-                res.status(403).send({message:'unauthorized access'})
-            }
+        app.get('/reviews', async(req,res) =>{
+            // const decoded = req.decoded;
+            // if(decoded.email !== req.query.email){
+            //     res.status(403).send({message:'unauthorized access'})
+            // }
             let query ={};
             if(req.query.email){
                 query={
